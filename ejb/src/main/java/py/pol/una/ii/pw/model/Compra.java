@@ -1,4 +1,6 @@
-package entity;
+package py.pol.una.ii.pw.model;
+
+
 
 import java.io.Serializable;
 import java.util.Date;
