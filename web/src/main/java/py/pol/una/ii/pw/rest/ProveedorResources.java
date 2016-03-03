@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 import py.pol.una.ii.pw.model.Proveedor;
 import py.pol.una.ii.pw.service.ProveedorService;
 
-@Path("Proveedors")
+@Path("Proveedores")
 public class ProveedorResources {
 	@Inject
 	private ProveedorService ProveedorService;
