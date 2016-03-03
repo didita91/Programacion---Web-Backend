@@ -4,6 +4,7 @@ package py.pol.una.ii.pw.rest;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -46,7 +47,7 @@ public Response buscarProveedor(String ProveedorNombre) throws Exception{
 	return Response.ok(Proveedor).build();
 }
 
-@POST
+@DELETE
 @Path("eliminacion")
 public Response eliminarProveedor(String ProveedorNombre) throws Exception{
 	ProveedorService.eliminar(ProveedorNombre);
