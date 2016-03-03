@@ -14,43 +14,43 @@ import javax.ws.rs.core.Response;
 import py.pol.una.ii.pw.model.Proveedor;
 import py.pol.una.ii.pw.service.ProveedorService;
 
-@Path("Proveedores")
+@Path("proveedores")
 public class ProveedorResources {
 	@Inject
-	private ProveedorService ProveedorService;
+	private ProveedorService proveedorService;
 	
 @POST
 @Path("creacion")
-public Response crearProveedor(Proveedor Proveedor) throws Exception{
-	ProveedorService.crear(Proveedor);
+public Response crearProveedor(Proveedor proveedor) throws Exception{
+	proveedorService.crear(proveedor);
 	return Response.ok("Se creo exitosamente").build();
 }
 
 @PUT
 @Path("modificacion")
-public Response modificarProveedor(Proveedor ProveedorActual,Proveedor ProveedorNuevo) throws Exception{
-	ProveedorService.modificar(ProveedorActual, ProveedorNuevo);
+public Response modificarProveedor(Proveedor proveedorActual,Proveedor proveedorNuevo) throws Exception{
+	proveedorService.modificar(proveedorActual, proveedorNuevo);
 	return Response.ok("Se modifico exitosamente").build();
 }
 
 @GET
 @Path("/")
 public Response listarProveedor() throws Exception{
-	ArrayList<Proveedor> Proveedor = ProveedorService.listar();
-	return Response.ok(Proveedor).build();
+	ArrayList<Proveedor> proveedor = proveedorService.listar();
+	return Response.ok(proveedor).build();
 }
 
 @GET
 @Path("busqueda")
-public Response buscarProveedor(String ProveedorNombre) throws Exception{
-	Proveedor Proveedor = ProveedorService.buscar(ProveedorNombre);
-	return Response.ok(Proveedor).build();
+public Response buscarProveedor(String proveedorNombre) throws Exception{
+	Proveedor proveedor = proveedorService.buscar(proveedorNombre);
+	return Response.ok(proveedor).build();
 }
 
 @DELETE
 @Path("eliminacion")
-public Response eliminarProveedor(String ProveedorNombre) throws Exception{
-	ProveedorService.eliminar(ProveedorNombre);
+public Response eliminarProveedor(String proveedorNombre) throws Exception{
+	proveedorService.eliminar(proveedorNombre);
 	return Response.ok("Se elimino exitosamente").build();
 }
 }
