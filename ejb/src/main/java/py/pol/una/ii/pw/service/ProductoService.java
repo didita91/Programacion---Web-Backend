@@ -13,23 +13,23 @@ public class ProductoService {
 		productoList.add(producto);
 	}
 	
-	public void modificar(Producto clienteActual, Producto clienteNuevo) throws Exception{
+	public void modificar(Producto productoActual, Producto productoNuevo) throws Exception{
 			
 		while(productoIterator.hasNext()) {
-			Producto cliente = productoIterator.next();
-			if(cliente.equals(clienteActual)){
-				cliente = clienteNuevo;
+			Producto producto = productoIterator.next();
+			if(producto.equals(productoActual)){
+				producto = productoNuevo;
 				break;
 			}
 		}
 	}
 	
-	public void eliminar (String clienteNombre) throws Exception{
+	public void eliminar (String productoNombre) throws Exception{
 		
 		int i=0;
 		while(productoIterator.hasNext()) {
 			Producto c = productoIterator.next();
-			if(c.getNombre().equals(clienteNombre)){
+			if(c.getNombre().equals(productoNombre)){
 				productoList.remove(i);
 				break;
 			}
@@ -37,10 +37,10 @@ public class ProductoService {
 		}
 	}
 	
-	public Producto buscar (String clienteNombre) throws Exception{
+	public Producto buscar (String productoNombre) throws Exception{
 		while(productoIterator.hasNext()) {
 			Producto c = productoIterator.next();
-			if(c.getNombre().equals(clienteNombre)){
+			if(c.getNombre().equals(productoNombre)){
 				return c;
 			}
 		}
