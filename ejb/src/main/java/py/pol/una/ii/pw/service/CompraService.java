@@ -1,15 +1,18 @@
 package py.pol.una.ii.pw.service;
 
-import java.util.ArrayList;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 
-import javax.ejb.LocalBean;
-
+import py.pol.una.ii.pw.beans.CompraManager;
 import py.pol.una.ii.pw.model.Compra;
-@LocalBean
+
+@Stateless
 public class CompraService {
-	public ArrayList<Compra> compraList = new ArrayList<Compra>();
+
+	@Inject
+	private CompraManager compraManager;
 	
-	public void realizarCompra(Compra compra) throws Exception{		
-		compraList.add(compra);	
+	public void realizarCompra(Compra compra) throws Exception {
+		compraManager.create(compra);
 	}
 }

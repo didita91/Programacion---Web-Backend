@@ -15,9 +15,9 @@ public class VentaResources {
 
 	@POST
 	@Path("/registro")
-	public Response registrarCompra(Venta ventaDetallada) throws Exception {
-	ventaService.crear(ventaDetallada);
-		return Response.ok("Compra registrada").build();
+	public Response registrarVenta(Venta ventaDetallada) throws Exception {
+	ventaService.realizarVenta(ventaDetallada);
+		return Response.ok("Venta registrada").build();
 	}
 
 }
