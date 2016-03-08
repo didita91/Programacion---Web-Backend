@@ -11,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
+
 @Table(name = "venta_detalle")
 public class VentaDetalle implements Serializable{
 

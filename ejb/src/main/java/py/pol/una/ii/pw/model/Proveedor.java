@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity
 @Table(name = "proveedor")
 public class Proveedor implements Serializable{
 
@@ -43,6 +42,7 @@ public class Proveedor implements Serializable{
 		super();
 		this.id = id;
 	}
+	public Proveedor(){}
 
 	public Integer getId() {
 		return id;

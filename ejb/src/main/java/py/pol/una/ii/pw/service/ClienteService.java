@@ -7,8 +7,8 @@ import py.pol.una.ii.pw.model.Cliente;
 
 public class ClienteService {
 
-	public ArrayList<Cliente> clienteList = new ArrayList<Cliente>();
-	public Iterator<Cliente> clienteIterator = clienteList.iterator();
+	public static final ArrayList<Cliente> clienteList = null;
+	public static final Iterator<Cliente> clienteIterator = clienteList.iterator();
 	
 	
 	public void crear(Cliente cliente) throws Exception{

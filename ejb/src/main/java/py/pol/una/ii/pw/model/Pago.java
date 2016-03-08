@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity
+
 @Table(name = "pago")
 public class Pago implements Serializable{
 
@@ -33,10 +33,10 @@ public class Pago implements Serializable{
 	private Integer monto;
 	
 	@Column(name = "cliente")
-	private Cliente cliente;
+	private int cliente;
 
 
-	public Pago(Integer id, Date fecha, Integer monto, Cliente cliente) {
+	public Pago(Integer id, Date fecha, Integer monto, int cliente) {
 		super();
 		this.id = id;
 		this.fecha = fecha;
@@ -48,7 +48,7 @@ public class Pago implements Serializable{
 		super();
 		this.id = id;
 	}
-
+	public Pago(){}
 	public Integer getId() {
 		return id;
 	}
@@ -73,12 +73,13 @@ public class Pago implements Serializable{
 		this.monto = monto;
 	}
 
-	public Cliente getCliente() {
+	public int getCliente() {
 		return cliente;
 	}
+	
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setCliente(int i) {
+		this.cliente = i;
 	}
 
 }

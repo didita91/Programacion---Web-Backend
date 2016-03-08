@@ -2,6 +2,7 @@ package py.pol.una.ii.pw.model;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity
+
 @Table(name = "venta")
 public class Venta implements Serializable{
 
@@ -30,21 +31,22 @@ public class Venta implements Serializable{
 	private Date fecha;
 	
 	@Column(name = "cliente")
-	private Cliente cliente;
+	private int cliente;
 	
 	@Column(name = "monto")
 	private Integer monto;
 	
-	private List<VentaDetalle> detalles;
+	private ArrayList<VentaDetalle> detalles;
 
 	public Venta(Integer id) {
 		super();
 		this.id = id;
 	
 	}
+	public Venta(){}
 
-	public Venta(Integer id, Date fecha, Cliente cliente, Integer monto,
-			List<VentaDetalle> detalles) {
+	public Venta(Integer id, Date fecha, int cliente, Integer monto,
+			ArrayList<VentaDetalle> detalles) {
 		super();
 		this.id = id;
 		this.fecha = fecha;
@@ -69,12 +71,12 @@ public class Venta implements Serializable{
 		this.fecha = fecha;
 	}
 
-	public Cliente getCliente() {
+	public int getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setCliente(int i) {
+		this.cliente = i;
 	}
 
 	public Integer getMonto() {
@@ -89,7 +91,7 @@ public class Venta implements Serializable{
 		return detalles;
 	}
 
-	public void setDetalles(List<VentaDetalle> detalles) {
+	public void setDetalles(ArrayList<VentaDetalle> detalles) {
 		this.detalles = detalles;
 	}
 

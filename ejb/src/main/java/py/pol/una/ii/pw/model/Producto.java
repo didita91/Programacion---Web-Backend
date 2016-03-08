@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 
-@Entity
 @Table(name = "proveedor")
 public class Producto implements Serializable{
 
@@ -37,6 +36,7 @@ public class Producto implements Serializable{
 		this.id = id;	
 	}
 	
+	public Producto(){}
 	public Producto(Integer id, String nombre, Integer precio, int stock) {
 		super();
 		this.id = id;

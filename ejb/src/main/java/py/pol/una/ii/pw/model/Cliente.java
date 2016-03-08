@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity
 @Table(name = "cliente")
 public class Cliente implements Serializable{
 
@@ -33,10 +32,10 @@ public class Cliente implements Serializable{
 	@Column(name = "saldo")
 	private Integer saldo;	//se suma cuando se produce una venta y se resta cuando se produce un Pago
 	
-	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
+	/*@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
 	private Collection<Pago> pagoCollection;
 	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
-	private Collection<Venta> ventaCollection;
+	private Collection<Venta> ventaCollection;*/
 	
 	public Cliente(Integer id, String nombre, String ruc, Integer saldo,
 			Collection<Pago> pagoCollection, Collection<Venta> ventaCollection) {
@@ -45,8 +44,11 @@ public class Cliente implements Serializable{
 		this.nombre = nombre;
 		this.ruc = ruc;
 		this.saldo = saldo;
-		this.pagoCollection = pagoCollection;
-		this.ventaCollection = ventaCollection;
+		//this.pagoCollection = pagoCollection;
+		//this.ventaCollection = ventaCollection;
+	}
+	public Cliente(){
+	
 	}
 
 	public Cliente(Integer id) {
@@ -78,7 +80,7 @@ public class Cliente implements Serializable{
 		this.saldo = saldo;
 	}
 
-	public Collection<Pago> getPagoCollection() {
+	/*public Collection<Pago> getPagoCollection() {
 		return pagoCollection;
 	}
 
@@ -93,7 +95,7 @@ public class Cliente implements Serializable{
 	public void setVentaCollection(Collection<Venta> ventaCollection) {
 		this.ventaCollection = ventaCollection;
 	}
-	
+	*/
 	
 	
 	
