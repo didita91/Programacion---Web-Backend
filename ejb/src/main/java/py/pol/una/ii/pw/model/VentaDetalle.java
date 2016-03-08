@@ -20,10 +20,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author Fede
- */
 @Entity
 @Table(name = "venta_detalle")
 @XmlRootElement

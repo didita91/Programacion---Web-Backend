@@ -25,10 +25,7 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author Fede
- */
+
 @Entity
 @Table(name = "venta")
 @XmlRootElement
