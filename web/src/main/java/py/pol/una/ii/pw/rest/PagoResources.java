@@ -19,10 +19,10 @@ public class PagoResources {
 	@Path("/registro")
 	public Response registrarPago(@QueryParam("fecha") String fecha, @QueryParam("monto") String monto, @QueryParam("cliente") String cliente) throws Exception {
 		Pago pago = new Pago();
-		pago.setCliente(Integer.parseInt(cliente));
+		//pago.setCliente(Integer.parseInt(cliente));
 		//pago.setFecha(fecha);
-		pago.setMonto(Integer.parseInt(monto));
-		pagoService.realizarPago(pago);
+		//ago.setMonto(Integer.parseInt(monto));
+		//pagoService.realizarPago(pago);
 		return Response.ok("Pago registrado").build();
 	}
 

@@ -1,71 +1,104 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package py.pol.una.ii.pw.model;
-
 
 
 import java.io.Serializable;
 import java.util.Collection;
-
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
+/**
+ *
+ * @author Fede
+ */
+@Entity
 @Table(name = "proveedor")
-public class Proveedor implements Serializable{
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Proveedor.findAll", query = "SELECT p FROM Proveedor p"),
+    @NamedQuery(name = "Proveedor.findByIdProveedor", query = "SELECT p FROM Proveedor p WHERE p.idProveedor = :idProveedor"),
+    @NamedQuery(name = "Proveedor.findByNombre", query = "SELECT p FROM Proveedor p WHERE p.nombre = :nombre")})
+public class Proveedor implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id_proveedor")
+    private Integer idProveedor;
+    @Column(name = "nombre")
+    private String nombre;
+    @OneToMany(mappedBy = "idProveedor")
+    private Collection<Compra> compraCollection;
 
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
-	private Integer id;
-	
-	@Column(name = "nombre")
-	private String nombre;
-	
-	@OneToMany(mappedBy = "proveedor", fetch = FetchType.LAZY)
-	private Collection<Compra> compraCollection;
+    public Proveedor() {
+    }
 
-	public Proveedor(Integer id, String nombre,
-			Collection<Compra> compraCollection) {
-		super();
-		this.id = id;
-		this.nombre = nombre;
-		this.compraCollection = compraCollection;
-	}
+    public Proveedor(Integer idProveedor) {
+        this.idProveedor = idProveedor;
+    }
 
-	public Proveedor(Integer id) {
-		super();
-		this.id = id;
-	}
-	public Proveedor(){}
+    public Integer getIdProveedor() {
+        return idProveedor;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public void setIdProveedor(Integer idProveedor) {
+        this.idProveedor = idProveedor;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	public String getNombre() {
-		return nombre;
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    @XmlTransient
+    public Collection<Compra> getCompraCollection() {
+        return compraCollection;
+    }
 
-	public Collection<Compra> getCompraCollection() {
-		return compraCollection;
-	}
+    public void setCompraCollection(Collection<Compra> compraCollection) {
+        this.compraCollection = compraCollection;
+    }
 
-	public void setCompraCollection(Collection<Compra> compraCollection) {
-		this.compraCollection = compraCollection;
-	}
-			
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idProveedor != null ? idProveedor.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Proveedor)) {
+            return false;
+        }
+        Proveedor other = (Proveedor) object;
+        if ((this.idProveedor == null && other.idProveedor != null) || (this.idProveedor != null && !this.idProveedor.equals(other.idProveedor))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "tarea.Proveedor[ idProveedor=" + idProveedor + " ]";
+    }
+    
 }

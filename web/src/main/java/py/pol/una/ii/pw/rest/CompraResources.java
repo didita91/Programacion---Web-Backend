@@ -19,12 +19,12 @@ public class CompraResources {
 	public Response registrarVenta(@QueryParam("fecha") String fecha,@QueryParam("cliente") String cliente,
 			@QueryParam("monto") String monto,@QueryParam("detalles") String detalles) throws Exception{
 		Venta venta = new Venta();
-		venta.setCliente(Integer.parseInt(cliente));
+		//venta.setIdCliente(Integer.parseInt(cliente));
 		venta.setMonto(Integer.parseInt(monto));
 		//venta.setDetalles(detalles);
 		
 		
-		ventaService.realizarVenta(venta);
+		//ventaService.realizarVenta(venta);
 		return Response.ok("Venta registrada").build();
 	}
 
