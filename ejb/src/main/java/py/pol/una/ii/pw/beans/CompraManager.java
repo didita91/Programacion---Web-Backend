@@ -9,7 +9,7 @@ import py.pol.una.ii.pw.model.Compra;
 @Stateless
 public class CompraManager extends AbstractManager<Compra>{
 
-	@PersistenceContext(unitName = "primary")
+	  @PersistenceContext(unitName = "programacionPU")
 	  private EntityManager em;
 
 	  @Override

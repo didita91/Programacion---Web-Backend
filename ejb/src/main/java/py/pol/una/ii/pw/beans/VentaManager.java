@@ -6,9 +6,9 @@ import javax.persistence.PersistenceContext;
 
 import py.pol.una.ii.pw.model.Venta;
 @Stateless
-public abstract class VentaManager   extends AbstractManager<Venta>{
+public class VentaManager  extends AbstractManager<Venta>{
 
-			  @PersistenceContext(unitName = "primary")
+			  @PersistenceContext(unitName = "programacionPU")
 			  private EntityManager em;
 
 			  @Override

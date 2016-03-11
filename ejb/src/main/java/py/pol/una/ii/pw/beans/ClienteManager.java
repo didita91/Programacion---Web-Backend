@@ -7,7 +7,7 @@ import javax.persistence.PersistenceContext;
 import py.pol.una.ii.pw.model.Cliente;
 @Stateless
 public class ClienteManager extends AbstractManager<Cliente>{
-		  @PersistenceContext(unitName = "primary")
+		  @PersistenceContext(unitName = "programacionPU")
 		  private EntityManager em;
 
 		  @Override

@@ -8,6 +8,8 @@ package py.pol.una.ii.pw.model;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,9 +47,9 @@ public class Producto implements Serializable {
     @Column(name = "stock")
     private Integer stock;
     @OneToMany(mappedBy = "idProducto")
-    private Collection<CompraDetalle> compraDetalleCollection;
+    private List<CompraDetalle> compraDetalleCollection;
     @OneToMany(mappedBy = "idProducto")
-    private Collection<VentaDetalle> ventaDetalleCollection;
+    private List<VentaDetalle> ventaDetalleCollection;
 
     public Producto() {
     }
@@ -93,7 +95,7 @@ public class Producto implements Serializable {
         return compraDetalleCollection;
     }
 
-    public void setCompraDetalleCollection(Collection<CompraDetalle> compraDetalleCollection) {
+    public void setCompraDetalleCollection(List<CompraDetalle> compraDetalleCollection) {
         this.compraDetalleCollection = compraDetalleCollection;
     }
 
@@ -102,7 +104,7 @@ public class Producto implements Serializable {
         return ventaDetalleCollection;
     }
 
-    public void setVentaDetalleCollection(Collection<VentaDetalle> ventaDetalleCollection) {
+    public void setVentaDetalleCollection(List<VentaDetalle> ventaDetalleCollection) {
         this.ventaDetalleCollection = ventaDetalleCollection;
     }
 

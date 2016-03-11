@@ -93,8 +93,6 @@ public class Venta implements Serializable {
     }
 
 
-
-    @XmlTransient
     public Collection<VentaDetalle> getVentaDetalleCollection() {
         return ventaDetalleCollection;
     }
@@ -125,7 +123,7 @@ public class Venta implements Serializable {
 
     @Override
     public String toString() {
-        return "tarea.Venta[ idVenta=" + idVenta + " ]";
+        return "tarea2.Venta[ idVenta=" + idVenta + " ]";
     }
     
 }

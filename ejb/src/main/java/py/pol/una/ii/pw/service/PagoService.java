@@ -1,15 +1,13 @@
 package py.pol.una.ii.pw.service;
 
-import java.util.ArrayList;
-
+import javax.ejb.EJB;
 import javax.inject.Inject;
 
 import py.pol.una.ii.pw.beans.PagoManager;
-import py.pol.una.ii.pw.model.Cliente;
 import py.pol.una.ii.pw.model.Pago;
 
 public class PagoService {
-	@Inject
+	@EJB
 	private PagoService pagoService;
 	
 	@Inject

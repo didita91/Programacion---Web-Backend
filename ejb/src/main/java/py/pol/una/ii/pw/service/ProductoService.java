@@ -2,14 +2,13 @@ package py.pol.una.ii.pw.service;
 
 import java.util.ArrayList;
 
-import javax.inject.Inject;
+import javax.ejb.EJB;
 
 import py.pol.una.ii.pw.beans.ProductoManager;
-import py.pol.una.ii.pw.model.Cliente;
 import py.pol.una.ii.pw.model.Producto;
 
 public class ProductoService {
-	@Inject
+	@EJB
 	private ProductoManager productoManager;
 
 	public void crear(Producto producto) throws Exception {

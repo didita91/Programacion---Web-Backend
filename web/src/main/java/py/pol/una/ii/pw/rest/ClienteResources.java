@@ -10,19 +10,22 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import py.pol.una.ii.pw.model.Cliente;
 import py.pol.una.ii.pw.service.ClienteService;
 
 @Path("/clientes")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class ClienteResources {
 	@Inject
 	private ClienteService clienteService;
 
 @POST
 @Path("/creacion")
-@Consumes("application/json")
 public void crearCliente(Cliente cliente) throws Exception{
 
 	clienteService.crear(cliente);

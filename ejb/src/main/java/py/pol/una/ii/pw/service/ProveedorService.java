@@ -3,14 +3,14 @@ package py.pol.una.ii.pw.service;
 
 import java.util.ArrayList;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 
 import py.pol.una.ii.pw.beans.ProveedorManager;
 import py.pol.una.ii.pw.model.Proveedor;
 @Stateless
 public class ProveedorService {
-	@Inject
+	@EJB
 	private ProveedorManager proveedorManager;
 	public void crear(Proveedor proveedor) throws Exception {
 		proveedorManager.create(proveedor);

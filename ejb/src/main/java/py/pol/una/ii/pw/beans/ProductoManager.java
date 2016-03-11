@@ -7,8 +7,8 @@ import javax.persistence.PersistenceContext;
 import py.pol.una.ii.pw.model.Producto;
 
 @Stateless
-public abstract class ProductoManager extends AbstractManager<Producto> {
-	 @PersistenceContext(unitName = "primary")
+public class ProductoManager extends AbstractManager<Producto> {
+	  @PersistenceContext(unitName = "programacionPU")
 	  private EntityManager em;
 
 	  @Override

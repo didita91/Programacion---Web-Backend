@@ -6,8 +6,9 @@
 package py.pol.una.ii.pw.model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -50,7 +51,7 @@ public class Compra implements Serializable {
     @ManyToOne
     private Proveedor idProveedor;
     @OneToMany(mappedBy = "idCompra")
-    private Collection<CompraDetalle> compraDetalleCollection;
+    private List<CompraDetalle> compraDetalleCollection;
 
     public Compra() {
     }
@@ -84,11 +85,11 @@ public class Compra implements Serializable {
     }
 
     @XmlTransient
-    public Collection<CompraDetalle> getCompraDetalleCollection() {
+    public List<CompraDetalle> getCompraDetalleCollection() {
         return compraDetalleCollection;
     }
 
-    public void setCompraDetalleCollection(Collection<CompraDetalle> compraDetalleCollection) {
+    public void setCompraDetalleCollection(List<CompraDetalle> compraDetalleCollection) {
         this.compraDetalleCollection = compraDetalleCollection;
     }
 

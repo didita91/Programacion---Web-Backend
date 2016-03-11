@@ -10,7 +10,7 @@ import py.pol.una.ii.pw.model.Compra;
 import py.pol.una.ii.pw.model.Venta;
 import py.pol.una.ii.pw.service.CompraService;
 
-@Path("/venta")
+@Path("/compras")
 public class CompraResources {
 	@Inject
 	private CompraService compraService;

@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -49,10 +50,10 @@ public class Cliente implements Serializable {
     private String nombre;
     @Column(name = "saldo")
     private Integer saldo;
-    @OneToMany(mappedBy = "idCliente")
-    private Collection<Venta> ventaCollection;
-    @OneToMany(mappedBy = "idCliente")
-    private Collection<Pago> pagoCollection;
+//    @OneToMany(mappedBy = "idCliente")
+//    private Collection<Venta> ventaCollection;
+//    @OneToMany(mappedBy = "idCliente")
+//    private Collection<Pago> pagoCollection;
 
     public Cliente() {
     }
@@ -92,24 +93,23 @@ public class Cliente implements Serializable {
     public void setSaldo(Integer saldo) {
         this.saldo = saldo;
     }
-
-   @XmlTransient
-    public Collection<Venta> getVentaCollection() {
-        return ventaCollection;
-    }
-
-    public void setVentaCollection(Collection<Venta> ventaCollection) {
-        this.ventaCollection = ventaCollection;
-    }
-
-    @XmlTransient
-    public Collection<Pago> getPagoCollection() {
-        return pagoCollection;
-    }
-
-    public void setPagoCollection(Collection<Pago> pagoCollection) {
-        this.pagoCollection = pagoCollection;
-    }
+//
+//    public Collection<Venta> getVentaCollection() {
+//        return ventaCollection;
+//    }
+//
+//    public void setVentaCollection(Collection<Venta> ventaCollection) {
+//        this.ventaCollection = ventaCollection;
+//    }
+//
+//    
+//    public Collection<Pago> getPagoCollection() {
+//        return pagoCollection;
+//    }
+//
+//    public void setPagoCollection(Collection<Pago> pagoCollection) {
+//        this.pagoCollection = pagoCollection;
+//    }
 
     @Override
     public int hashCode() {
@@ -133,7 +133,7 @@ public class Cliente implements Serializable {
 
     @Override
     public String toString() {
-        return "tarea.Cliente[ idCliente=" + idCliente + " ]";
+        return "tarea2.Cliente[ idCliente=" + idCliente + " ]";
     }
     
 }

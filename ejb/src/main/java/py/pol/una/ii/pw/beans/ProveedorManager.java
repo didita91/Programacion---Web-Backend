@@ -7,9 +7,9 @@ import javax.persistence.PersistenceContext;
 import py.pol.una.ii.pw.model.Proveedor;
 
 @Stateless
-public abstract class ProveedorManager extends AbstractManager<Proveedor> {
+public class ProveedorManager extends AbstractManager<Proveedor> {
 
-			  @PersistenceContext(unitName = "primary")
+			  @PersistenceContext(unitName = "programacionPU")
 			  private EntityManager em;
 
 			  @Override
