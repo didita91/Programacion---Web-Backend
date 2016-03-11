@@ -4,15 +4,13 @@
  * and open the template in the editor.
  */
 package py.pol.una.ii.pw.model;
-
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,9 +19,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
-
 @Entity
 @Table(name = "producto")
 @XmlRootElement
@@ -46,10 +41,10 @@ public class Producto implements Serializable {
     private Integer precio;
     @Column(name = "stock")
     private Integer stock;
-    @OneToMany(mappedBy = "idProducto")
-    private List<CompraDetalle> compraDetalleCollection;
-    @OneToMany(mappedBy = "idProducto")
-    private List<VentaDetalle> ventaDetalleCollection;
+    @OneToMany(mappedBy="idProducto")
+    private List<CompraDetalle> compraDetalle;
+    @OneToMany(mappedBy="idProducto")
+    private List<VentaDetalle> ventaDetalle;
 
     public Producto() {
     }
@@ -90,22 +85,22 @@ public class Producto implements Serializable {
         this.stock = stock;
     }
 
-    @XmlTransient
-    public Collection<CompraDetalle> getCompraDetalleCollection() {
-        return compraDetalleCollection;
+    @OneToMany(fetch=FetchType.EAGER)
+    public Collection<CompraDetalle> getCompraDetalle() {
+        return compraDetalle;
     }
 
-    public void setCompraDetalleCollection(List<CompraDetalle> compraDetalleCollection) {
-        this.compraDetalleCollection = compraDetalleCollection;
+    public void setCompraDetalle(List<CompraDetalle> compraDetalle) {
+        this.compraDetalle = compraDetalle;
     }
 
-    @XmlTransient
-    public Collection<VentaDetalle> getVentaDetalleCollection() {
-        return ventaDetalleCollection;
+    @OneToMany(fetch=FetchType.EAGER)
+    public Collection<VentaDetalle> getVentaDetalle() {
+        return ventaDetalle;
     }
 
-    public void setVentaDetalleCollection(List<VentaDetalle> ventaDetalleCollection) {
-        this.ventaDetalleCollection = ventaDetalleCollection;
+    public void setVentaDetalle(List<VentaDetalle> ventaDetalle) {
+        this.ventaDetalle = ventaDetalle;
     }
 
 

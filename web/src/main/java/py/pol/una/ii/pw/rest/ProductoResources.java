@@ -27,7 +27,6 @@ public class ProductoResources {
 	
 	@POST
 	@Path("/creacion")
-	@Consumes("application/json")
 	public void crearProducto(Producto producto)throws Exception{
 	
 		productoService.crear(producto);
