@@ -35,7 +35,7 @@ public class Producto implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_producto")
     private Integer idProducto;
-    @Column(name = "nombre")
+    @Column(name = "nombre",unique=true)
     private String nombre;
     @Column(name = "precio")
     private Integer precio;
@@ -127,7 +127,7 @@ public class Producto implements Serializable {
 
     @Override
     public String toString() {
-        return "tarea.Producto[ idProducto=" + idProducto + " ]";
+        return "tarea2.Producto[ nombre=" + nombre + " ]";
     }
     
 }

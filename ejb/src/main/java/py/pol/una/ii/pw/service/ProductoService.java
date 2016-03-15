@@ -1,19 +1,38 @@
 package py.pol.una.ii.pw.service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 import javax.ejb.EJB;
-import javax.ejb.SessionBean;
 
+import py.pol.una.ii.pw.beans.ProductoDuplicadoManager;
 import py.pol.una.ii.pw.beans.ProductoManager;
 import py.pol.una.ii.pw.model.Producto;
+import py.pol.una.ii.pw.model.ProductoDuplicado;
 
 public class ProductoService {
 	@EJB
 	private ProductoManager productoManager;
-
-	public void crear(Producto producto) throws Exception {
-		productoManager.create(producto);
+	@EJB
+	private ProductoDuplicadoManager productoDuplicadoManager;
+	public void crear(Producto producto) throws SQLIntegrityConstraintViolationException {
+		try {
+			productoManager.create(producto);
+		} catch (Exception e) {
+			ProductoDuplicado productoDuplicado = new ProductoDuplicado();
+			Producto productoEncontrado = productoManager.findByName(producto.getNombre());
+			ProductoDuplicado productoDuplicadoEcontrado= productoDuplicadoManager.findByName(productoEncontrado.getNombre());
+			if(productoDuplicadoEcontrado!=null){
+				productoDuplicadoEcontrado.setCantidad(productoDuplicadoEcontrado.getCantidad()+1);
+				productoDuplicadoManager.edit(productoDuplicadoEcontrado);
+			}else{
+				productoDuplicado.setCantidad(productoDuplicado.getCantidad()+1);
+				productoDuplicado.setProducto(productoEncontrado);
+				productoDuplicadoManager.create(productoDuplicado);
+			}
+			throw new SQLIntegrityConstraintViolationException(e.getMessage(), e.getCause());
+			
+		}
 	}
 
 	public void modificarProducto(Integer id, Producto entity) {

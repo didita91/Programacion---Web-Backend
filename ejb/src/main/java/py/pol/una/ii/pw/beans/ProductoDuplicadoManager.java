@@ -5,11 +5,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
-import py.pol.una.ii.pw.model.Pago;
-import py.pol.una.ii.pw.model.Venta;
+import py.pol.una.ii.pw.model.Producto;
+import py.pol.una.ii.pw.model.ProductoDuplicado;
+
 @Stateless
-public class PagoManager  extends AbstractManager<Pago>{
-	
+public class ProductoDuplicadoManager extends AbstractManager<ProductoDuplicado> {
 	  @PersistenceContext(unitName = "programacionPU", type=PersistenceContextType.EXTENDED)
 	  private EntityManager em;
 
@@ -18,9 +18,7 @@ public class PagoManager  extends AbstractManager<Pago>{
 	     return em;
 	  }
 
-	  public PagoManager() {
-	     super(Pago.class);
+	  public ProductoDuplicadoManager() {
+	     super(ProductoDuplicado.class);
 	  }
-
 }
-

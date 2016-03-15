@@ -7,6 +7,7 @@ package py.pol.una.ii.pw.model;
 
 
 import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
@@ -35,6 +37,7 @@ public class VentaDetalle implements Serializable {
     @Column(name = "id_venta_detalle")
     private Integer idVentaDetalle;
     @Column(name = "cantidad")
+    @Min(value=1,message="Debe ser mayor a 0")
     private Integer cantidad;
     @JoinColumn(name = "id_producto", referencedColumnName = "id_producto")
     @ManyToOne

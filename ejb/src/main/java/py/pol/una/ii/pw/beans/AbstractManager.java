@@ -28,7 +28,9 @@ public abstract class AbstractManager<T>  {
 	  public T find(Object id) {
 	     return getEntityManager().find(entityClass, id);
 	  }
-
+	  public T findByName(String nombre) {
+		     return getEntityManager().find(entityClass, nombre);
+		  }
 	  public List<T> findAll() {
 	     javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
 	     cq.select(cq.from(entityClass));
