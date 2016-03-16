@@ -22,7 +22,7 @@ public class ProductoService {
 		} catch (Exception e) {
 			ProductoDuplicado productoDuplicado = new ProductoDuplicado();
 			Producto productoEncontrado=productoManager.findByNombre(producto.getNombre());
-			ProductoDuplicado productoDuplicadoEcontrado= productoDuplicadoManager.find(productoEncontrado.getIdProducto());
+			ProductoDuplicado productoDuplicadoEcontrado= productoDuplicadoManager.findByIdProducto(productoEncontrado);
 			if(productoDuplicadoEcontrado!=null){
 				productoDuplicadoEcontrado.setCantidad(productoDuplicadoEcontrado.getCantidad()+1);
 				productoDuplicadoManager.edit(productoDuplicadoEcontrado);

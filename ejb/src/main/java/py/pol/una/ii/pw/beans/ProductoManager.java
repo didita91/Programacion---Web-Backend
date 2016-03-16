@@ -22,6 +22,7 @@ public class ProductoManager extends AbstractManager<Producto> {
 	       query.setParameter("nombre", nombre);
 	       return (Producto) query.getSingleResult();
 	   }
+	 
 	  public ProductoManager() {
 	     super(Producto.class);
 	  }

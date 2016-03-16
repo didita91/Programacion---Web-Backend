@@ -24,6 +24,8 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "producto_duplicado")
+@NamedQueries({
+    @NamedQuery(name = "ProductoDuplicado.findByIdProducto", query = "SELECT p FROM ProductoDuplicado p WHERE p.idProducto = :idProducto")})
 public class ProductoDuplicado implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
