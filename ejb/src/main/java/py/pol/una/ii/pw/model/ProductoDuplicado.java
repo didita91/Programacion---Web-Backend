@@ -24,7 +24,6 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "producto_duplicado")
-@XmlRootElement
 public class ProductoDuplicado implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -32,9 +31,9 @@ public class ProductoDuplicado implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_producto_duplicado")
     private Integer id_producto_duplicado;
-    @JoinColumn(name = "producto", referencedColumnName = "id_producto")
+    @JoinColumn(name = "id_producto", referencedColumnName = "id_producto")
     @ManyToOne
-    private Producto producto;
+    private Producto idProducto;
     @Column(name = "cantidad")
     private Integer cantidad;
  
@@ -47,14 +46,14 @@ public class ProductoDuplicado implements Serializable {
 
 
     public Producto getProducto() {
-		return producto;
+		return idProducto;
 	}
 
 
 
 
 	public void setProducto(Producto nombre) {
-		this.producto = nombre;
+		this.idProducto = nombre;
 	}
 
 
@@ -91,7 +90,7 @@ public class ProductoDuplicado implements Serializable {
 	@Override
     public int hashCode() {
         int hash = 0;
-        hash += (producto != null ? producto.hashCode() : 0);
+        hash += (idProducto != null ? idProducto.hashCode() : 0);
         return hash;
     }
 
@@ -102,7 +101,7 @@ public class ProductoDuplicado implements Serializable {
             return false;
         }
         ProductoDuplicado other = (ProductoDuplicado) object;
-        if ((this.producto == null && other.producto != null) || (this.producto != null && !this.producto.equals(other.producto))) {
+        if ((this.idProducto == null && other.idProducto != null) || (this.idProducto != null && !this.idProducto.equals(other.idProducto))) {
             return false;
         }
         return true;
@@ -110,7 +109,7 @@ public class ProductoDuplicado implements Serializable {
 
     @Override
     public String toString() {
-        return "tarea2.Producto[ nombre=" + producto.getNombre() + " ]";
+        return "tarea2.Producto[ nombre=" + idProducto.getNombre() + " ]";
     }
     
 }

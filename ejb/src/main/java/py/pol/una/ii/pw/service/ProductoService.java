@@ -18,10 +18,11 @@ public class ProductoService {
 	public void crear(Producto producto) throws SQLIntegrityConstraintViolationException {
 		try {
 			productoManager.create(producto);
+
 		} catch (Exception e) {
 			ProductoDuplicado productoDuplicado = new ProductoDuplicado();
-			Producto productoEncontrado = productoManager.findByName(producto.getNombre());
-			ProductoDuplicado productoDuplicadoEcontrado= productoDuplicadoManager.findByName(productoEncontrado.getNombre());
+			Producto productoEncontrado=productoManager.findByNombre(producto.getNombre());
+			ProductoDuplicado productoDuplicadoEcontrado= productoDuplicadoManager.find(productoEncontrado.getIdProducto());
 			if(productoDuplicadoEcontrado!=null){
 				productoDuplicadoEcontrado.setCantidad(productoDuplicadoEcontrado.getCantidad()+1);
 				productoDuplicadoManager.edit(productoDuplicadoEcontrado);
@@ -38,6 +39,7 @@ public class ProductoService {
 	public void modificarProducto(Integer id, Producto entity) {
 		productoManager.edit(entity);
 	}
+	
 
 	public void eliminar(Integer idProducto) throws Exception {
 

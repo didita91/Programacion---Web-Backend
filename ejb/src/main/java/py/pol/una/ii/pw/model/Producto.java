@@ -125,6 +125,7 @@ public class Producto implements Serializable {
         return true;
     }
 
+ 
     @Override
     public String toString() {
         return "tarea2.Producto[ nombre=" + nombre + " ]";
