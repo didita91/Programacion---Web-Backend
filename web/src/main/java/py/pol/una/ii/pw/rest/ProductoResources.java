@@ -1,6 +1,8 @@
 package py.pol.una.ii.pw.rest;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -56,5 +58,20 @@ public class ProductoResources {
 	public Response listarProducto() throws Exception{	
 		ArrayList<Producto> producto = productoService.listar();
 		return Response.ok(producto).build();
+	}
+	
+	@POST
+	@Path("/cargas")
+	public void cargarProducto(List<Producto> productoList)throws Exception{
+	
+			
+		Iterator<Producto> productoIterator = productoList.iterator();
+		while (productoIterator.hasNext()) {
+			productoService.crear(productoIterator.next());
+			
+		}
+//		productoService.crear(producto);
+		
+	//	return Response.ok("Se creo exitosamente").build();
 	}
 }

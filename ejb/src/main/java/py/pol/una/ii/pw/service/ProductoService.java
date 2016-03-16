@@ -25,13 +25,14 @@ public class ProductoService {
 			ProductoDuplicado productoDuplicadoEcontrado= productoDuplicadoManager.findByIdProducto(productoEncontrado);
 			if(productoDuplicadoEcontrado!=null){
 				productoDuplicadoEcontrado.setCantidad(productoDuplicadoEcontrado.getCantidad()+1);
+				productoDuplicadoEcontrado.setProducto(productoEncontrado);
 				productoDuplicadoManager.edit(productoDuplicadoEcontrado);
 			}else{
 				productoDuplicado.setCantidad(productoDuplicado.getCantidad()+1);
 				productoDuplicado.setProducto(productoEncontrado);
 				productoDuplicadoManager.create(productoDuplicado);
 			}
-			throw new SQLIntegrityConstraintViolationException(e.getMessage(), e.getCause());
+			//throw new SQLIntegrityConstraintViolationException(e.getMessage(), e.getCause());
 			
 		}
 	}
@@ -54,6 +55,10 @@ public class ProductoService {
 
 	public Producto find(Integer id) {
 		return productoManager.find(id);
+	}
+	
+	public void cargasMasivas(Producto producto){
+		productoManager.findByNombre(producto.getNombre());
 	}
 
 }
