@@ -13,10 +13,9 @@ import javax.validation.ConstraintViolationException;
 
 import py.pol.una.ii.pw.model.Venta;
 @Stateless
-@TransactionManagement(TransactionManagementType.CONTAINER)
 public class VentaManager  extends AbstractManager<Venta>{
 
-			  @PersistenceContext(unitName = "programacionPU", type=PersistenceContextType.EXTENDED)
+			  @PersistenceContext(unitName = "programacionPU")
 			  private EntityManager em;
 			  
 			  @Resource

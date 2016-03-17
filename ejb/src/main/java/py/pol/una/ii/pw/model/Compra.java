@@ -50,8 +50,6 @@ public class Compra implements Serializable {
     @JoinColumn(name = "id_proveedor", referencedColumnName = "id_proveedor")
     @ManyToOne
     private Proveedor idProveedor;
-    @OneToMany(mappedBy = "idCompra")
-    private List<CompraDetalle> compraDetalleCollection;
 
     public Compra() {
     }
@@ -84,14 +82,7 @@ public class Compra implements Serializable {
         this.idProveedor = idProveedor;
     }
 
-    @XmlTransient
-    public List<CompraDetalle> getCompraDetalleCollection() {
-        return compraDetalleCollection;
-    }
 
-    public void setCompraDetalleCollection(List<CompraDetalle> compraDetalleCollection) {
-        this.compraDetalleCollection = compraDetalleCollection;
-    }
 
     @Override
     public int hashCode() {

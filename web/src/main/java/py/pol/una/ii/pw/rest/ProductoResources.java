@@ -17,61 +17,55 @@ import javax.ws.rs.core.Response;
 
 import py.pol.una.ii.pw.model.Producto;
 import py.pol.una.ii.pw.service.ProductoService;
+
 @Path("/productos")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class ProductoResources {
-	//@Inject
-	//private ProductoService productoService;
 	
+
 	@Inject
 	private ProductoService productoService;
-	
+
 	@POST
 	@Path("/creacion")
-	public void crearProducto(Producto producto)throws Exception{
-	
+	public void crearProducto(Producto producto) throws Exception {
+
 		productoService.crear(producto);
-		
-	//	return Response.ok("Se creo exitosamente").build();
 	}
 
 	@PUT
 	@Path("{id}")
-	public void modificarProducto(@PathParam("id") Integer id, Producto entity) throws Exception{
-		
+	public void modificarProducto(@PathParam("id") Integer id, Producto entity)
+			throws Exception {
+
 		productoService.modificarProducto(id, entity);
-//		return Response.ok("Se modifico exitosamente").build();
-	}	
-	
-	
+		// return Response.ok("Se modifico exitosamente").build();
+	}
+
 	@GET
 	@Path("{id}")
-	public Response buscarProducto(@PathParam("id") Integer id) throws Exception{
+	public Response buscarProducto(@PathParam("id") Integer id)
+			throws Exception {
 		Producto producto = productoService.find(id);
 		return Response.ok(producto).build();
 	}
-	
-	
+
 	@GET
 	@Path("/")
-	public Response listarProducto() throws Exception{	
-		ArrayList<Producto> producto = productoService.listar();
-		return Response.ok(producto).build();
+	public Response listarProducto() throws Exception {
+		List product = productoService.conectarBD();
+		return Response.ok(product).build();
 	}
-	
+
 	@POST
 	@Path("/cargas")
-	public void cargarProducto(List<Producto> productoList)throws Exception{
-	
-			
+	public void cargarProducto(List<Producto> productoList) throws Exception {
+
 		Iterator<Producto> productoIterator = productoList.iterator();
 		while (productoIterator.hasNext()) {
 			productoService.crear(productoIterator.next());
-			
+
 		}
-//		productoService.crear(producto);
-		
-	//	return Response.ok("Se creo exitosamente").build();
 	}
 }

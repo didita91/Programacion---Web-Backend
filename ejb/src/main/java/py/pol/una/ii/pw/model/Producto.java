@@ -41,10 +41,6 @@ public class Producto implements Serializable {
     private Integer precio;
     @Column(name = "stock")
     private Integer stock;
-    @OneToMany(mappedBy="idProducto")
-    private List<CompraDetalle> compraDetalle;
-    @OneToMany(mappedBy="idProducto")
-    private List<VentaDetalle> ventaDetalle;
 
     public Producto() {
     }
@@ -83,24 +79,6 @@ public class Producto implements Serializable {
 
     public void setStock(Integer stock) {
         this.stock = stock;
-    }
-
-    @OneToMany(fetch=FetchType.EAGER)
-    public Collection<CompraDetalle> getCompraDetalle() {
-        return compraDetalle;
-    }
-
-    public void setCompraDetalle(List<CompraDetalle> compraDetalle) {
-        this.compraDetalle = compraDetalle;
-    }
-
-    @OneToMany(fetch=FetchType.EAGER)
-    public Collection<VentaDetalle> getVentaDetalle() {
-        return ventaDetalle;
-    }
-
-    public void setVentaDetalle(List<VentaDetalle> ventaDetalle) {
-        this.ventaDetalle = ventaDetalle;
     }
 
 

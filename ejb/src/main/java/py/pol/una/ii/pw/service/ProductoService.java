@@ -1,9 +1,12 @@
 package py.pol.una.ii.pw.service;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.EJB;
+import javax.inject.Inject;
 
 import py.pol.una.ii.pw.beans.ProductoDuplicadoManager;
 import py.pol.una.ii.pw.beans.ProductoManager;
@@ -15,6 +18,8 @@ public class ProductoService {
 	private ProductoManager productoManager;
 	@EJB
 	private ProductoDuplicadoManager productoDuplicadoManager;
+	
+	private Connection conexion= null;;
 	public void crear(Producto producto) throws SQLIntegrityConstraintViolationException {
 		try {
 			productoManager.create(producto);
@@ -37,6 +42,11 @@ public class ProductoService {
 		}
 	}
 
+	public List conectarBD() {
+		List<Producto> producto =productoManager.buscarTodo();
+		return producto;
+	}
+	
 	public void modificarProducto(Integer id, Producto entity) {
 		productoManager.edit(entity);
 	}
@@ -47,16 +57,19 @@ public class ProductoService {
 		productoManager.remove(productoManager.find(idProducto));
 	}
 
-	public ArrayList<Producto> listar() throws Exception {
+	public List<Producto> listar() throws Exception {
 		
 
-		return (ArrayList<Producto>) productoManager.findAll();
+		return  productoManager.buscarTodo();
 	}
 
 	public Producto find(Integer id) {
 		return productoManager.find(id);
 	}
-	
+	public List<Producto> buscarTodo() {
+		
+		return productoManager.buscarTodo();
+	}
 	public void cargasMasivas(Producto producto){
 		productoManager.findByNombre(producto.getNombre());
 	}

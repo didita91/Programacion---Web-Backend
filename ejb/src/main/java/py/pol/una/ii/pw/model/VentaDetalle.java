@@ -8,6 +8,7 @@ package py.pol.una.ii.pw.model;
 
 import java.io.Serializable;
 
+import javax.ejb.EJB;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,6 +23,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import py.pol.una.ii.pw.beans.ProductoManager;
+
 @Entity
 @Table(name = "venta_detalle")
 @XmlRootElement
@@ -30,6 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "VentaDetalle.findByIdVentaDetalle", query = "SELECT v FROM VentaDetalle v WHERE v.idVentaDetalle = :idVentaDetalle"),
     @NamedQuery(name = "VentaDetalle.findByCantidad", query = "SELECT v FROM VentaDetalle v WHERE v.cantidad = :cantidad")})
 public class VentaDetalle implements Serializable {
+	
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -109,5 +113,16 @@ public class VentaDetalle implements Serializable {
     public String toString() {
         return "tarea.VentaDetalle[ idVentaDetalle=" + idVentaDetalle + " ]";
     }
+    
+    
+    public boolean verificarStock(VentaDetalle detalle, boolean rollback, int stock){
+
+    	
+    	if(detalle.getCantidad()>stock){
+    		rollback=true;
+    	}
+    	return rollback;
+    }
+    
     
 }

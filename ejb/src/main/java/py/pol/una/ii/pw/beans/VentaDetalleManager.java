@@ -1,22 +1,20 @@
 package py.pol.una.ii.pw.beans;
 
-import javax.annotation.Resource;
-import javax.ejb.EJBContext;
-import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
-import javax.validation.ConstraintViolationException;
 
-import py.pol.una.ii.pw.model.Venta;
+import py.pol.una.ii.pw.model.VentaDetalle;
 @Stateless
-@TransactionManagement(TransactionManagementType.CONTAINER)
-public class VentaDetalleManager  extends AbstractManager<Venta>{
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
+public class VentaDetalleManager  extends AbstractManager<VentaDetalle>{
 
-			  @PersistenceContext(unitName = "programacionPU", type=PersistenceContextType.EXTENDED)
+			  @PersistenceContext(unitName = "programacionPU")
 			  private EntityManager em;
 			  
 		
@@ -26,8 +24,15 @@ public class VentaDetalleManager  extends AbstractManager<Venta>{
 			  }
 			
 			  public VentaDetalleManager() {
-			     super(Venta.class);
+			     super(VentaDetalle.class);
 			  }
+			
+
+//			public void create(VentaDetalle detalle) {
+//		
+//				     getEntityManager().persist(detalle);
+//				    			
+//			}
 			  
 
 	}
