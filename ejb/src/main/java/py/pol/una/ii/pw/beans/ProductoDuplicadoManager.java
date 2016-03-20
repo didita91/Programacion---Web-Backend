@@ -13,7 +13,7 @@ import py.pol.una.ii.pw.model.ProductoDuplicado;
 
 @Stateless
 public class ProductoDuplicadoManager extends AbstractManager<ProductoDuplicado> {
-	  @PersistenceContext(unitName = "programacionPU", type=PersistenceContextType.EXTENDED)
+	  @PersistenceContext(unitName = "programacionPU")
 	  private EntityManager em;
 
 	  @Override
@@ -23,12 +23,13 @@ public class ProductoDuplicadoManager extends AbstractManager<ProductoDuplicado>
 	  public ProductoDuplicado findByIdProducto(Producto producto) {
 	       Query query = em.createNamedQuery("ProductoDuplicado.findByIdProducto");
 	       query.setParameter("idProducto", producto);
+	       ProductoDuplicado pd = new ProductoDuplicado();
 	       List results = query.getResultList();
-	       ProductoDuplicado p= new ProductoDuplicado();
 	       if(!results.isEmpty()){
-	    	    p = (ProductoDuplicado) results.get(0);
+	       // ignores multiple results
+	    	   pd = (ProductoDuplicado) results.get(0);
 	       }
-	       return p;
+	       return  pd;
 	   }
 	  public ProductoDuplicadoManager() {
 	     super(ProductoDuplicado.class);

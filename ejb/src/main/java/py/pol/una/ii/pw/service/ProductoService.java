@@ -1,25 +1,28 @@
 package py.pol.una.ii.pw.service;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.inject.Inject;
+import javax.ejb.Stateful;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 
 import py.pol.una.ii.pw.beans.ProductoDuplicadoManager;
 import py.pol.una.ii.pw.beans.ProductoManager;
 import py.pol.una.ii.pw.model.Producto;
 import py.pol.una.ii.pw.model.ProductoDuplicado;
-
+@Stateful
+@TransactionManagement(TransactionManagementType.BEAN)
 public class ProductoService {
 	@EJB
 	private ProductoManager productoManager;
 	@EJB
 	private ProductoDuplicadoManager productoDuplicadoManager;
 	
-	private Connection conexion= null;;
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void crear(Producto producto) throws SQLIntegrityConstraintViolationException {
 		try {
 			productoManager.create(producto);
@@ -28,7 +31,7 @@ public class ProductoService {
 			ProductoDuplicado productoDuplicado = new ProductoDuplicado();
 			Producto productoEncontrado=productoManager.findByNombre(producto.getNombre());
 			ProductoDuplicado productoDuplicadoEcontrado= productoDuplicadoManager.findByIdProducto(productoEncontrado);
-			if(productoDuplicadoEcontrado!=null){
+			if(productoDuplicadoEcontrado.getId_producto_duplicado()!=null){
 				productoDuplicadoEcontrado.setCantidad(productoDuplicadoEcontrado.getCantidad()+1);
 				productoDuplicadoEcontrado.setProducto(productoEncontrado);
 				productoDuplicadoManager.edit(productoDuplicadoEcontrado);

@@ -3,24 +3,27 @@ package py.pol.una.ii.pw.beans;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 
 import py.pol.una.ii.pw.model.Producto;
 
-@Stateful
+@Stateless
 public class ProductoManager extends AbstractManager<Producto> {
-	@PersistenceContext(unitName = "programacionPU", type = PersistenceContextType.EXTENDED)
+	@PersistenceContext(unitName = "programacionPU")
 	private EntityManager em;
 
 	@Override
 	protected EntityManager getEntityManager() {
 		return em;
 	}
-
+	
+	
 	public Producto findByNombre(String nombre) {
 		Query query = em.createNamedQuery("Producto.findByNombre");
 		query.setParameter("nombre", nombre);
