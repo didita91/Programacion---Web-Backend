@@ -16,6 +16,7 @@ import javax.validation.ConstraintViolationException;
 import py.pol.una.ii.pw.beans.ProductoManager;
 import py.pol.una.ii.pw.beans.VentaDetalleManager;
 import py.pol.una.ii.pw.beans.VentaManager;
+import py.pol.una.ii.pw.model.CantidadVentaException;
 import py.pol.una.ii.pw.model.Producto;
 import py.pol.una.ii.pw.model.Venta;
 import py.pol.una.ii.pw.model.VentaDetalle;
@@ -35,7 +36,7 @@ public class VentaService {
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void realizarVenta(Venta venta) throws Exception,
-			ConstraintViolationException {
+			CantidadVentaException {
 
 		VentaDetalle detalle = new VentaDetalle();
 
@@ -67,7 +68,7 @@ public class VentaService {
 				ventaManager.create(venta);
 			}
 		} catch (Exception e) {
-			throw new Exception(e.getMessage(), e.getCause());
+			throw new CantidadVentaException("Debe ser mayor a 0");
 		}
 	}
 

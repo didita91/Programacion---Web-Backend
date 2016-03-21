@@ -8,6 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import py.pol.una.ii.pw.model.Pago;
 import py.pol.una.ii.pw.service.PagoService;
@@ -24,7 +25,7 @@ public class PagoResources {
 	@Path("/registro")
 	public Response registrarPago(Pago pago) throws Exception {
 		pagoService.crear(pago);
-		return Response.ok("Pago registrado").build();
+		return Response.ok(Status.OK).build();
 	}
 
 }

@@ -13,6 +13,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
 import py.pol.una.ii.pw.model.Cliente;
 import py.pol.una.ii.pw.service.ClienteService;
 
@@ -25,9 +27,10 @@ public class ClienteResources {
 
 @POST
 @Path("/creacion")
-public void crearCliente(Cliente cliente) throws Exception{
+public Response crearCliente(Cliente cliente) throws Exception{
 
 	clienteService.crear(cliente);
+	return Response.status(Status.CREATED).build();
 }
 
 @PUT

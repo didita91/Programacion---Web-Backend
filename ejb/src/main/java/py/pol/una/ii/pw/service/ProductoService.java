@@ -40,7 +40,7 @@ public class ProductoService {
 				productoDuplicado.setProducto(productoEncontrado);
 				productoDuplicadoManager.create(productoDuplicado);
 			}
-			//throw new SQLIntegrityConstraintViolationException(e.getMessage(), e.getCause());
+		//	throw new SQLIntegrityConstraintViolationException(e.getMessage(), e.getCause());
 			
 		}
 	}

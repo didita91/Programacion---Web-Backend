@@ -5,6 +5,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import py.pol.una.ii.pw.model.Compra;
 import py.pol.una.ii.pw.model.Venta;
@@ -19,7 +20,7 @@ public class CompraResources {
 	@Path("/registro")
 	public Response registrarCompra(Compra compraDetallada) throws Exception {
 	compraService.realizarCompra(compraDetallada);
-		return Response.ok("Compra registrada").build();
+		return Response.ok(Status.OK).build();
 	}
 
 }

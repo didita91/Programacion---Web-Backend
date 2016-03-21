@@ -7,11 +7,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
+import py.pol.una.ii.pw.model.CantidadVentaException;
 import py.pol.una.ii.pw.model.Venta;
 import py.pol.una.ii.pw.service.VentaService;
 
-@Path("/compra-producto")
+@Path("/venta")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class VentaResources {
@@ -19,10 +21,15 @@ public class VentaResources {
 	private VentaService ventaService;
 
 	@POST
-	@Path("/registro")
 	public Response registrarVenta(Venta ventaDetallada) throws Exception {
-	ventaService.realizarVenta(ventaDetallada);
-		return Response.ok("Venta registrada").build();
+		try {
+			ventaService.realizarVenta(ventaDetallada);
+			return Response.ok(Status.OK).build();
+
+		} catch (Exception e) {
+			// throw new CantidadVentaException("No puede ser menor a cero");
+			return Response.status(Status.NOT_ACCEPTABLE).build();
+		}
 	}
 
 }

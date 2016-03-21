@@ -14,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import py.pol.una.ii.pw.model.Producto;
 import py.pol.una.ii.pw.service.ProductoService;
@@ -29,9 +30,13 @@ public class ProductoResources {
 
 	@POST
 	@Path("/creacion")
-	public void crearProducto(Producto producto) throws Exception {
-
+	public Response crearProducto(Producto producto) throws Exception {
+		try{
 		productoService.crear(producto);
+		return Response.status(Status.CREATED).build();
+		}catch(Exception e){
+			return Response.status(Status.NOT_ACCEPTABLE).build();
+		}
 	}
 
 	@PUT
@@ -60,12 +65,14 @@ public class ProductoResources {
 
 	@POST
 	@Path("/cargas")
-	public void cargarProducto(List<Producto> productoList) throws Exception {
+	public Response cargarProducto(List<Producto> productoList) throws Exception {
 
 		Iterator<Producto> productoIterator = productoList.iterator();
 		while (productoIterator.hasNext()) {
 			productoService.crear(productoIterator.next());
 
 		}
+		return Response.status(Status.CREATED).build();
+
 	}
 }
