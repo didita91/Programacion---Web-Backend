@@ -10,13 +10,14 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.enterprise.context.spi.Context;
 import javax.validation.ConstraintViolationException;
 
+import py.pol.una.ii.pw.beans.ClienteManager;
 import py.pol.una.ii.pw.beans.ProductoManager;
 import py.pol.una.ii.pw.beans.VentaDetalleManager;
 import py.pol.una.ii.pw.beans.VentaManager;
 import py.pol.una.ii.pw.model.CantidadVentaException;
+import py.pol.una.ii.pw.model.Cliente;
 import py.pol.una.ii.pw.model.Producto;
 import py.pol.una.ii.pw.model.Venta;
 import py.pol.una.ii.pw.model.VentaDetalle;
@@ -26,6 +27,8 @@ import py.pol.una.ii.pw.model.VentaDetalle;
 public class VentaService {
 	@EJB
 	private VentaManager ventaManager;
+	@EJB 
+	private ClienteManager clienteManager;
 	@EJB
 	private VentaDetalleManager ventaDetalleManager;
 	@Resource
@@ -44,11 +47,12 @@ public class VentaService {
 			throw new Exception("La venta debe de tener al menos un detalle");
 		}
 		try {
-
+			Integer sumaMonto=0;
 			for (VentaDetalle detalleIt : venta.getVentaDetalleCollection()) {
 
 				Producto producto = productoManager.find(detalleIt
 						.getIdProducto().getIdProducto());
+				sumaMonto=sumaMonto+(producto.getPrecio()*detalleIt.getCantidad());
 				if (detalle.verificarStock(detalleIt, rollback,
 						producto.getStock()) == true) {
 					throw new Exception("La cantidad pedida es mayor al stock"); // se
@@ -65,6 +69,10 @@ public class VentaService {
 						throw new ConstraintViolationException(e.getMessage(),null);
 					}
 				}
+				venta.setMonto(sumaMonto);
+				Cliente cM = clienteManager.find(venta.getIdCliente().getIdCliente());
+				cM.setSaldo(cM.getSaldo()+sumaMonto);
+				clienteManager.edit(cM);
 				ventaManager.create(venta);
 			}
 		} catch (Exception e) {

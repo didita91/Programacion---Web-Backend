@@ -22,7 +22,7 @@ public class PagoResources {
 	private PagoService pagoService;
 
 	@POST
-	@Path("/registro")
+	@Path("/")
 	public Response registrarPago(Pago pago) throws Exception {
 		pagoService.crear(pago);
 		return Response.ok(Status.OK).build();

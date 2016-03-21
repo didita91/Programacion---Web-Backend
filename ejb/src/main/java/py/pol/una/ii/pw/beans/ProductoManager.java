@@ -32,7 +32,7 @@ public class ProductoManager extends AbstractManager<Producto> {
 
 	public List<Producto> buscarTodo() {
 		int inicio = 0;
-		int cantidad = 10;
+		int cantidad = 2;
 		List<Producto> lista = listar(inicio, cantidad);
 		List<Producto> aux= new ArrayList<Producto>();
 		while (lista.size() != 0) {
