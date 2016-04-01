@@ -30,25 +30,26 @@ public class ProductoManager extends AbstractManager<Producto> {
 		return (Producto) query.getSingleResult();
 	}
 
-	public List<Producto> buscarTodo() {
-		int inicio = 0;
-		int cantidad = 2;
-		List<Producto> lista = listar(inicio, cantidad);
-		List<Producto> aux= new ArrayList<Producto>();
-		while (lista.size() != 0) {
-			for(Producto p: lista){
-				aux.add(p);
-			}
-			inicio += cantidad;
-			lista = listar(inicio, cantidad);
-			
-		}
-		return aux;
-	}
+//	public List<Producto> buscarTodo() {
+//		int inicio = 0;
+//		int cantidad = 2;
+//		List<Producto> lista = listar(inicio, cantidad);
+//		List<Producto> aux= new ArrayList<Producto>();
+//		while (lista.size() != 0) {
+//			for(Producto p: lista){
+//				aux.add(p);
+//			}
+//			inicio += cantidad;
+//			lista = listar(inicio, cantidad);
+//			
+//		}
+//		return aux;
+//	}
 
-	public List<Producto> listar(int inicio, int cantidad) {
+	public List<Producto> listar(int inicio,int cantidad) {
 		String consulta = "SELECT * FROM PRODUCTO";
 		Query query = em.createNamedQuery("Producto.findAll");
+		query.setMaxResults(100);
 		query.setFirstResult(inicio);
 		query.setMaxResults(cantidad);
 		List<Producto> lista = query.getResultList();
