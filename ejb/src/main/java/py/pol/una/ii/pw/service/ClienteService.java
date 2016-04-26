@@ -1,39 +1,86 @@
 package py.pol.una.ii.pw.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.PersistenceContext;
 
-import py.pol.una.ii.pw.beans.ClienteManager;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionException;
+
+import py.pol.una.ii.pw.example.ClienteExample;
+import py.pol.una.ii.pw.mapper.ClienteMapper;
 import py.pol.una.ii.pw.model.Cliente;
+import py.pol.una.ii.pw.model.ProgramacionSqlSessionFactory;
 
 @Stateless
 public class ClienteService {
-	@EJB
-	private ClienteManager clienteManager;
-
-	public void crear(Cliente cliente) throws Exception {
-		clienteManager.create(cliente);
+	public void crear(Cliente cliente) {
+		try {
+			SqlSession session = new ProgramacionSqlSessionFactory()
+					.getSqlSession();
+			ClienteMapper mapper = session.getMapper(ClienteMapper.class);
+			mapper.insert(cliente);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void modificarCliente(Integer id, Cliente entity) {
-		clienteManager.edit(entity);
+	public void modificarCliente(Cliente cliente) {
+		try {
+			SqlSession session = new ProgramacionSqlSessionFactory()
+					.getSqlSession();
+			ClienteMapper mapper = session.getMapper(ClienteMapper.class);
+			mapper.updateByPrimaryKey(cliente);
+			session.commit();
+
+		} catch (SqlSessionException s) {
+			s.printStackTrace();
+		}
+
 	}
 
 	public void eliminar(Integer idCliente) throws Exception {
+		try {
+			SqlSession session = new ProgramacionSqlSessionFactory()
+					.getSqlSession();
+			ClienteMapper mapper = session.getMapper(ClienteMapper.class);
+			mapper.deleteByPrimaryKey(idCliente);
+			session.commit();
 
-		clienteManager.remove(clienteManager.find(idCliente));
+		} catch (SqlSessionException s) {
+			s.printStackTrace();
+		}
 	}
 
-	public ArrayList<Cliente> listar() throws Exception {
-
-		return (ArrayList<Cliente>) clienteManager.findAll();
+	public List<Cliente> listar() throws Exception {
+		try {
+			SqlSession session = new ProgramacionSqlSessionFactory()
+					.getSqlSession();
+			ClienteMapper mapper = session.getMapper(ClienteMapper.class);
+			ClienteExample clientExample = new ClienteExample();
+			ClienteExample.Criteria clienteCriteria = clientExample
+					.createCriteria();
+			List<Cliente> lista = mapper.selectByExample(clientExample);
+			return lista;
+		} catch (SqlSessionException s) {
+			s.printStackTrace();
+		}
+		return null;
 	}
 
-	public Cliente find(Integer id) {
-		return clienteManager.find(id);
-	}
+	public Cliente obtenerCliente(Integer id) {
+		try {
+			SqlSession session = new ProgramacionSqlSessionFactory()
+					.getSqlSession();
+			ClienteMapper mapper = session.getMapper(ClienteMapper.class);
+			Cliente cliente = mapper.selectByPrimaryKey(id);
+			return cliente;
+		} catch (SqlSessionException s) {
+			s.printStackTrace();
+		}
+		return null;
 
+	}
 }

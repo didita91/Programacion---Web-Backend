@@ -1,10 +1,6 @@
 package py.pol.una.ii.pw.service;
 
-import java.util.ArrayList;
-
-import javax.annotation.Resource;
 import javax.ejb.EJB;
-import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -12,89 +8,92 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.validation.ConstraintViolationException;
 
+import org.apache.ibatis.session.SqlSession;
+
 import py.pol.una.ii.pw.beans.ClienteManager;
 import py.pol.una.ii.pw.beans.ProductoManager;
-import py.pol.una.ii.pw.beans.VentaDetalleManager;
-import py.pol.una.ii.pw.beans.VentaManager;
+import py.pol.una.ii.pw.mapper.ClienteMapper;
+import py.pol.una.ii.pw.mapper.VentaDetalleMapper;
+import py.pol.una.ii.pw.mapper.VentaMapper;
 import py.pol.una.ii.pw.model.CantidadVentaException;
 import py.pol.una.ii.pw.model.Cliente;
 import py.pol.una.ii.pw.model.Producto;
-import py.pol.una.ii.pw.model.Venta;
+import py.pol.una.ii.pw.model.ProgramacionSqlSessionFactory;
 import py.pol.una.ii.pw.model.VentaDetalle;
+import py.pol.una.ii.pw.view.VentaView;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class VentaService {
 	@EJB
-	private VentaManager ventaManager;
-	@EJB 
-	private ClienteManager clienteManager;
+	private ProductoService productoService;
 	@EJB
-	private VentaDetalleManager ventaDetalleManager;
-	@Resource
-	private SessionContext contex;
+	private ClienteManager clienteManager;
+
 	@EJB
 	private ProductoManager productoManager;
 	private static boolean rollback = false;
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void realizarVenta(Venta venta) throws Exception,
+	public void realizarVenta(VentaView venta) throws Exception,
 			CantidadVentaException {
-
-		VentaDetalle detalle = new VentaDetalle();
-
-		if (venta.getVentaDetalleCollection().isEmpty()) {
-			throw new Exception("La venta debe de tener al menos un detalle");
-		}
 		try {
-			Integer sumaMonto=0;
-			for (VentaDetalle detalleIt : venta.getVentaDetalleCollection()) {
 
-				Producto producto = productoManager.find(detalleIt
-						.getIdProducto().getIdProducto());
-				sumaMonto=sumaMonto+(producto.getPrecio()*detalleIt.getCantidad());
-				if (detalle.verificarStock(detalleIt, rollback,
-						producto.getStock()) == true) {
+			SqlSession session = new ProgramacionSqlSessionFactory()
+					.getSqlSession();
+			VentaDetalleMapper mapper = session
+					.getMapper(VentaDetalleMapper.class);
+
+			if (venta.getDetalle().isEmpty()) {
+				throw new Exception(
+						"La venta debe de tener al menos un detalle");
+			}
+
+			Integer sumaMonto = 0;
+			for (VentaDetalle detalleIt : venta.getDetalle()) {
+
+				Producto producto = productoService.obtenerProducto(detalleIt
+						.getIdProducto());
+				sumaMonto = sumaMonto
+						+ (producto.getPrecio() * detalleIt.getCantidad());
+				if (verificarStock(detalleIt, rollback, producto.getStock()) == true) {
 					throw new Exception("La cantidad pedida es mayor al stock"); // se
 
 				}
 			}
 			if (!rollback) {
 
-				for (VentaDetalle vD : venta.getVentaDetalleCollection()) {
+				for (VentaDetalle vD : venta.getDetalle()) {
 					try {
-						vD.setIdVenta(venta);
-						ventaDetalleManager.create(vD);
+						vD.setIdVenta(venta.getVenta().getIdVenta());
+						mapper.insert(vD);
 					} catch (Exception e) {
-						throw new ConstraintViolationException(e.getMessage(),null);
+						throw new ConstraintViolationException(e.getMessage(),
+								null);
 					}
 				}
-				venta.setMonto(sumaMonto);
-				Cliente cM = clienteManager.find(venta.getIdCliente().getIdCliente());
-				cM.setSaldo(cM.getSaldo()+sumaMonto);
-				clienteManager.edit(cM);
-				ventaManager.create(venta);
+				venta.getVenta().setMonto(sumaMonto);
+				ClienteMapper mapperCliente = session
+						.getMapper(ClienteMapper.class);
+				Cliente cM = mapperCliente.selectByPrimaryKey(venta.getVenta()
+						.getIdCliente());
+				cM.setSaldo(cM.getSaldo() + sumaMonto);
+				mapperCliente.updateByPrimaryKey(cM);
+				VentaMapper vm = session.getMapper(VentaMapper.class);
+				vm.insert(venta.getVenta());
 			}
 		} catch (Exception e) {
 			throw new CantidadVentaException("Debe ser mayor a 0");
 		}
 	}
 
-	public void modificarVenta(Integer id, Venta entity) {
-		ventaManager.edit(entity);
-	}
+	private boolean verificarStock(VentaDetalle detalle, boolean rollback,
+			int stock) {
 
-	public void eliminar(Integer idVenta) throws Exception {
-		ventaManager.remove(ventaManager.find(idVenta));
-	}
-
-	public ArrayList<Venta> listar() throws Exception {
-
-		return (ArrayList<Venta>) ventaManager.findAll();
-	}
-
-	public Venta find(Integer id) {
-		return ventaManager.find(id);
+		if (detalle.getCantidad() > stock) {
+			rollback = true;
+		}
+		return rollback;
 	}
 
 }

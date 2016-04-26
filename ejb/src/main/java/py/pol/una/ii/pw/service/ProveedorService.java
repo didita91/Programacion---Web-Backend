@@ -1,79 +1,86 @@
-
 package py.pol.una.ii.pw.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import py.pol.una.ii.pw.beans.ProveedorManager;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionException;
+
+import py.pol.una.ii.pw.example.ProveedorExample;
+import py.pol.una.ii.pw.mapper.ProveedorMapper;
+import py.pol.una.ii.pw.model.ProgramacionSqlSessionFactory;
 import py.pol.una.ii.pw.model.Proveedor;
+
 @Stateless
 public class ProveedorService {
-	@EJB
-	private ProveedorManager proveedorManager;
-	public void crear(Proveedor proveedor) throws Exception {
-		proveedorManager.create(proveedor);
+	public void crearProveedor(Proveedor proveedor) {
+		try {
+			SqlSession session = new ProgramacionSqlSessionFactory()
+					.getSqlSession();
+			ProveedorMapper mapper = session.getMapper(ProveedorMapper.class);
+			mapper.insert(proveedor);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void modificarProveedor(Integer id, Proveedor entity) {
-		proveedorManager.edit(entity);
+	public void modificarProveedor(Proveedor proveedor) {
+		try {
+			SqlSession session = new ProgramacionSqlSessionFactory()
+					.getSqlSession();
+			ProveedorMapper mapper = session.getMapper(ProveedorMapper.class);
+			mapper.updateByPrimaryKey(proveedor);
+			session.commit();
+
+		} catch (SqlSessionException s) {
+			s.printStackTrace();
+		}
+
 	}
 
 	public void eliminar(Integer idProveedor) throws Exception {
+		try {
+			SqlSession session = new ProgramacionSqlSessionFactory()
+					.getSqlSession();
+			ProveedorMapper mapper = session.getMapper(ProveedorMapper.class);
+			mapper.deleteByPrimaryKey(idProveedor);
+			session.commit();
 
-		proveedorManager.remove(proveedorManager.find(idProveedor));
+		} catch (SqlSessionException s) {
+			s.printStackTrace();
+		}
 	}
 
-	public ArrayList<Proveedor> listar() throws Exception {
-
-		return (ArrayList<Proveedor>) proveedorManager.findAll();
+	public List<Proveedor> listar() throws Exception {
+		try {
+			SqlSession session = new ProgramacionSqlSessionFactory()
+					.getSqlSession();
+			ProveedorMapper mapper = session.getMapper(ProveedorMapper.class);
+			ProveedorExample provExample = new ProveedorExample();
+			ProveedorExample.Criteria provCriteria = provExample
+					.createCriteria();
+			List<Proveedor> lista = mapper.selectByExample(provExample);
+			return lista;
+		} catch (SqlSessionException s) {
+			s.printStackTrace();
+		}
+		return null;
 	}
 
-	public Proveedor find(Integer id) {
-		return proveedorManager.find(id);
+	public Proveedor obtenerProveedor(Integer idProveedor) {
+		try {
+			SqlSession session = new ProgramacionSqlSessionFactory()
+					.getSqlSession();
+			ProveedorMapper mapper = session.getMapper(ProveedorMapper.class);
+			Proveedor proveedor = mapper.selectByPrimaryKey(idProveedor);
+			return proveedor;
+		} catch (SqlSessionException s) {
+			s.printStackTrace();
+		}
+		return null;
+
 	}
-	
-//	public void crear(Proveedor proveedor) throws Exception{
-//		proveedorList.add(proveedor);
-//	}
-//	
-//	public void modificar(Proveedor proveedorActual, Proveedor proveedorNuevo) throws Exception{
-//			
-//		while(proveedorIterator.hasNext()) {
-//			Proveedor proveedor = proveedorIterator.next();
-//			if(proveedor.equals(proveedorActual)){
-//				proveedor = proveedorNuevo;
-//				break;
-//			}
-//		}
-//	}
-//	
-//	public void eliminar (String proveedorNombre) throws Exception{
-//		
-//		int i=0;
-//		while(proveedorIterator.hasNext()) {
-//			Proveedor c = proveedorIterator.next();
-//			if(c.getNombre().equals(proveedorNombre)){
-//				proveedorList.remove(i);
-//				break;
-//			}
-//			i++;
-//		}
-//	}
-//	
-//	public Proveedor buscar (String proveedorNombre) throws Exception{
-//		while(proveedorIterator.hasNext()) {
-//			Proveedor c = proveedorIterator.next();
-//			if(c.getNombre().equals(proveedorNombre)){
-//				return c;
-//			}
-//		}
-//		return null;
-//	}
-//	
-//	public ArrayList<Proveedor> listar () throws Exception{
-//
-//		return proveedorList;
-//	}
 }

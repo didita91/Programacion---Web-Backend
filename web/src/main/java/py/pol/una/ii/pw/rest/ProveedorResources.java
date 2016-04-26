@@ -1,7 +1,7 @@
 
 package py.pol.una.ii.pw.rest;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -16,11 +16,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import py.pol.una.ii.pw.model.Cliente;
 import py.pol.una.ii.pw.model.Proveedor;
 import py.pol.una.ii.pw.service.ProveedorService;
-import py.pol.una.ii.pw.service.ProveedorService;
-
 
 
 @Path("/proveedores")
@@ -34,17 +31,16 @@ public class ProveedorResources {
 @Path("/creacion")
 public Response crearProveedor(Proveedor proveedor) throws Exception{
 
-	proveedorService.crear(proveedor);
+	proveedorService.crearProveedor(proveedor);
 	return Response.status(Status.CREATED).build();
 
 }
 
 @PUT
 @Path("{id}")
-public Response modificarProveedor(@PathParam("id") Integer idProveedor,Proveedor proveedor) throws Exception{
-	proveedorService.modificarProveedor(idProveedor,proveedor);
-	return null;
-
+public Response modificarProveedor(Proveedor proveedor) throws Exception{
+	proveedorService.modificarProveedor(proveedor);
+	return Response.ok().build();
 
 }
 
@@ -57,14 +53,14 @@ public void remove(@PathParam("id") Integer id) throws Exception {
 @GET
 @Path("/")
 public Response listarCliente() throws Exception{
-	ArrayList<Proveedor> proveedor = proveedorService.listar();
+	List<Proveedor> proveedor = proveedorService.listar();
 	return Response.ok(proveedor).build();
 }
 
 @GET
 @Path("{id}")
 public Response buscarProveedor(@PathParam("id") Integer idProveedor) throws Exception{
-	Proveedor proveedor = proveedorService.find(idProveedor);
+	Proveedor proveedor = proveedorService.obtenerProveedor(idProveedor);
 	return Response.ok(proveedor).build();
 }
 

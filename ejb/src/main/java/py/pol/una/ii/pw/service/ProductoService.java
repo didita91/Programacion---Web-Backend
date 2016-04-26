@@ -13,10 +13,17 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.enterprise.inject.Default;
 
-import py.pol.una.ii.pw.beans.ProductoDuplicadoManager;
-import py.pol.una.ii.pw.beans.ProductoManager;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionException;
+
+import py.pol.una.ii.pw.example.ProductoDuplicadoExample;
+import py.pol.una.ii.pw.mapper.ProductoDuplicadoMapper;
+import py.pol.una.ii.pw.mapper.ProductoMapper;
 import py.pol.una.ii.pw.model.Producto;
 import py.pol.una.ii.pw.model.ProductoDuplicado;
+import py.pol.una.ii.pw.model.ProgramacionSqlSessionFactory;
+
+
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @LocalBean
@@ -24,78 +31,111 @@ public class ProductoService {
 	@Default
 	@EJB
 	private ProductoService productoService;
-	@EJB
-	private ProductoManager productoManager;
-	@EJB
-	private ProductoDuplicadoManager productoDuplicadoManager;
 	
-	public void crear(List<Producto> producto) throws SQLIntegrityConstraintViolationException {
+	public void crear(List<Producto> producto)
+			throws SQLIntegrityConstraintViolationException {
 		Iterator<Producto> productoIterator = producto.iterator();
-			
-		
-			while (productoIterator.hasNext()){
-				productoService.verificarDuplicado(productoIterator.next());
-			}
-		
-//			ProductoDuplicado productoDuplicado = new ProductoDuplicado();
-//			Producto productoEncontrado=productoManager.findByNombre(producto.getNombre());
-//			ProductoDuplicado productoDuplicadoEcontrado= productoDuplicadoManager.findByIdProducto(productoEncontrado);
-//			if(productoDuplicadoEcontrado.getId_producto_duplicado()!=null){
-//				productoDuplicadoEcontrado.setCantidad(productoDuplicadoEcontrado.getCantidad()+1);
-//				productoDuplicadoEcontrado.setProducto(productoEncontrado);
-//				productoDuplicadoManager.edit(productoDuplicadoEcontrado);
-//			}else{
-//				productoDuplicado.setCantidad(productoDuplicado.getCantidad()+1);
-//				productoDuplicado.setProducto(productoEncontrado);
-//				productoDuplicadoManager.create(productoDuplicado);
-//			}
-		//	throw new SQLIntegrityConstraintViolationException(e.getMessage(), e.getCause());
-			
+
+		while (productoIterator.hasNext()) {
+			productoService.verificarDuplicado(productoIterator.next());
 		}
+
+	}
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public void verificarDuplicado(Producto producto){
-		try{
-		productoManager.create(producto);
-		}catch(Exception e){
+	public void verificarDuplicado(Producto producto) {
+		try {
+			SqlSession session = new ProgramacionSqlSessionFactory()
+					.getSqlSession();
+			ProductoMapper mapper = session.getMapper(ProductoMapper.class);
+			mapper.insert(producto);
+			session.commit();
+		} catch (Exception e) {
 			productoService.productoDuplicadoCarga(producto);
-		}
-		}
-	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public void productoDuplicadoCarga(Producto producto){
-		ProductoDuplicado productoDuplicado = new ProductoDuplicado();
-		Producto productoEncontrado=productoManager.findByNombre(producto.getNombre());
-		ProductoDuplicado productoDuplicadoEcontrado= productoDuplicadoManager.findByIdProducto(productoEncontrado);
-		if(productoDuplicadoEcontrado.getId_producto_duplicado()!=null){
-			productoDuplicadoEcontrado.setCantidad(productoDuplicadoEcontrado.getCantidad()+1);
-			productoDuplicadoEcontrado.setProducto(productoEncontrado);
-			productoDuplicadoManager.edit(productoDuplicadoEcontrado);
-		}else{
-			productoDuplicado.setCantidad(productoDuplicado.getCantidad()+1);
-			productoDuplicado.setProducto(productoEncontrado);
-			productoDuplicadoManager.create(productoDuplicado);
 		}
 	}
 
-	
-	
-	public void modificarProducto(Integer id, Producto entity) {
-		productoManager.edit(entity);
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public void productoDuplicadoCarga(Producto producto) {
+		try {
+
+			SqlSession session = new ProgramacionSqlSessionFactory()
+					.getSqlSession();
+			ProductoDuplicado productoDuplicado = new ProductoDuplicado();
+			
+			
+			ProductoMapper mapper = session.getMapper(ProductoMapper.class);
+			
+			ProductoDuplicadoMapper mapperDup = session
+					.getMapper(ProductoDuplicadoMapper.class);
+
+			ProductoDuplicado prodDuplEncon = new ProductoDuplicado();
+			prodDuplEncon=mapperDup
+					.selectByProductoDuplicado(producto.getIdProducto());
+			ProductoDuplicadoExample e= new ProductoDuplicadoExample();
+			ProductoDuplicadoExample.Criteria p = e.createCriteria();
+			int contar = mapperDup.countByExample(e);
+			
+			if (prodDuplEncon != null) {
+				prodDuplEncon.setCantidad(
+						prodDuplEncon.getCantidad() + 1);
+				prodDuplEncon.setIdProducto(
+						producto.getIdProducto());
+				mapperDup.updateByPrimaryKeySelective(prodDuplEncon);
+				session.commit();
+			} else {
+				productoDuplicado.setCantidad(0);
+				productoDuplicado.setCantidad(productoDuplicado
+						.getCantidad() + 1);
+				productoDuplicado.setIdProducto(producto.getIdProducto());
+				//productoDuplicado.setIdProductoDuplicado(contar+1);
+				mapperDup.insert(productoDuplicado);
+				session.commit();
+			}
+		} catch (SqlSessionException s) {
+			s.printStackTrace();
+		}
 	}
-	
+
+	public Producto obtenerProducto(Integer idProducto) {
+		try {
+			SqlSession session = new ProgramacionSqlSessionFactory()
+					.getSqlSession();
+			ProductoMapper mapper = session.getMapper(ProductoMapper.class);
+			Producto p = mapper.selectByPrimaryKey(idProducto);
+			return p;
+		} catch (SqlSessionException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public void modificarProducto(Producto producto) {
+		try {
+			SqlSession session = new ProgramacionSqlSessionFactory()
+					.getSqlSession();
+			ProductoMapper mapper = session.getMapper(ProductoMapper.class);
+			mapper.updateByPrimaryKey(producto);
+			session.commit();
+
+		} catch (SqlSessionException s) {
+			s.printStackTrace();
+		}
+
+	}
 
 	public void eliminar(Integer idProducto) throws Exception {
 
-		productoManager.remove(productoManager.find(idProducto));
-	}
+		try {
+			SqlSession session = new ProgramacionSqlSessionFactory()
+					.getSqlSession();
+			ProductoMapper mapper = session.getMapper(ProductoMapper.class);
+			mapper.deleteByPrimaryKey(idProducto);
+			session.commit();
 
-	
-
-	public Producto find(Integer id) {
-		return productoManager.find(id);
-	}
-	
-	public void cargasMasivas(Producto producto){
-		productoManager.findByNombre(producto.getNombre());
+		} catch (SqlSessionException s) {
+			s.printStackTrace();
+		}
 	}
 
 }

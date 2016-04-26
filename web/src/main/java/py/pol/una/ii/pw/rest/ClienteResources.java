@@ -1,6 +1,6 @@
 package py.pol.una.ii.pw.rest;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -33,33 +33,33 @@ public Response crearCliente(Cliente cliente) throws Exception{
 	return Response.status(Status.CREATED).build();
 }
 
+@GET
+@Path("/")
+public Response listarCliente() throws Exception{
+	
+	List<Cliente> cliente = clienteService.listar();
+	return Response.ok(cliente).build();
+}
+
+@GET
+@Path("{id}")
+public Response buscarCliente(@PathParam("id") String idCliente) throws Exception{
+	Cliente cliente = clienteService.obtenerCliente(Integer.parseInt(idCliente));
+	return Response.ok(cliente).build();
+}
+
 @PUT
 @Path("{id}")
-public Response modificarCliente(@PathParam("id") Integer idCliente,Cliente cliente) throws Exception{
-	clienteService.modificarCliente(idCliente,cliente);
+public Response modificarCliente(Cliente cliente) throws Exception{
+	clienteService.modificarCliente(cliente);
 	return null;
-
-
 }
 
 @DELETE
 @Path("{id}")
-public void remove(@PathParam("id") Integer id) throws Exception {
+public Response remove(@PathParam("id") Integer id) throws Exception {
 	clienteService.eliminar(id);
-}
-
-@GET
-@Path("/")
-public Response listarCliente() throws Exception{
-	ArrayList<Cliente> cliente = clienteService.listar();
-	return Response.ok(cliente).build();
-}
-
-@GET
-@Path("{id}")
-public Response buscarCliente(@PathParam("id") Integer idCliente) throws Exception{
-	Cliente cliente = clienteService.find(idCliente);
-	return Response.ok(cliente).build();
+	return Response.ok().build();
 }
 
 }

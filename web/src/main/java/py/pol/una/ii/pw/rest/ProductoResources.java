@@ -54,18 +54,18 @@ public class ProductoResources {
 
 	@PUT
 	@Path("{id}")
-	public void modificarProducto(@PathParam("id") Integer id, Producto entity)
+	public Response modificarProducto(@PathParam("id") Integer id, Producto entity)
 			throws Exception {
 
-		productoService.modificarProducto(id, entity);
-		// return Response.ok("Se modifico exitosamente").build();
+		productoService.modificarProducto(entity);
+		return Response.ok().build();
 	}
 
 	@GET
 	@Path("{id}")
 	public Response buscarProducto(@PathParam("id") Integer id)
 			throws Exception {
-		Producto producto = productoService.find(id);
+		Producto producto = productoService.obtenerProducto(id);
 		return Response.ok(producto).build();
 	}
 
@@ -85,6 +85,7 @@ public class ProductoResources {
 					List<Producto> producto= productoStatefulService.buscarTodo(inicio,cantidad);
 					bw.write("Lista de Productos: ");
 					total= total+producto.size();
+					bw.newLine();
 					while(!producto.isEmpty()){
 						inicio += cantidad;
 						for(Producto p : producto){

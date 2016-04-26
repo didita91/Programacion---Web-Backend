@@ -6,13 +6,7 @@
 	<persistence-unit name="programacionPU">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:/jboss/datasource/pruebaDS</jta-data-source>
-		<class>py.pol.una.ii.pw.model.Cliente</class>
-		<class>py.pol.una.ii.pw.model.Proveedor</class>
-		<class>py.pol.una.ii.pw.model.Producto</class>
-		<class>py.pol.una.ii.pw.model.Compra</class>
-		<class>py.pol.una.ii.pw.model.Pago</class>
-		<class>py.pol.una.ii.pw.model.Venta</class>
-		<class>py.pol.una.ii.pw.model.VentaDetalle</class>
+	
 
 
 		<properties>
@@ -25,7 +19,7 @@
 
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 			<property name="hibernate.hbm2ddl.auto" value="validate" />
-			<property name="hibernate.default_schema" value="tarea2" />
+			<property name="hibernate.default_schema" value="public" />
 
 		</properties>
 	</persistence-unit>
