@@ -63,24 +63,13 @@ public class VentaService {
 			}
 			if (!rollback) {
 
-				for (VentaDetalle vD : venta.getDetalle()) {
-					try {
-						vD.setIdVenta(venta.getVenta().getIdVenta());
-						mapper.insert(vD);
-					} catch (Exception e) {
-						throw new ConstraintViolationException(e.getMessage(),
-								null);
-					}
-				}
 				venta.getVenta().setMonto(sumaMonto);
-				ClienteMapper mapperCliente = session
-						.getMapper(ClienteMapper.class);
-				Cliente cM = mapperCliente.selectByPrimaryKey(venta.getVenta()
-						.getIdCliente());
-				cM.setSaldo(cM.getSaldo() + sumaMonto);
-				mapperCliente.updateByPrimaryKey(cM);
-				VentaMapper vm = session.getMapper(VentaMapper.class);
-				vm.insert(venta.getVenta());
+				ClienteMapper mapperCli= session.getMapper(ClienteMapper.class);
+				Cliente cli= mapperCli.selectByPrimaryKey(venta.getVenta().getIdCliente());
+				cli.setSaldo(cli.getSaldo()+sumaMonto);
+				mapperCli.updateByPrimaryKey(cli);
+				
+				
 			}
 		} catch (Exception e) {
 			throw new CantidadVentaException("Debe ser mayor a 0");
